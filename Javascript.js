@@ -1,11 +1,27 @@
-var myGamePiece;
+
+
+
+
+
+
 
 window.addEventListener("keydown", keyTouch, false);
 window.addEventListener("keyup", clearmove, false);
 
+var myGamePiece;
+var lives = 3;
+var playerScore = 0;
+var computerScore = 0;
+var collision = false;
+
+/* I think the computer and the player should each have
+3 - 5 predetermined words.  Maybe we could store them in an array.*/
+
 function startGame() {
+	
     myGamePiece = new component(80, 80, "cat.jpg", 590, 565, "image");
     myGameArea.start();
+	testEnemy = new component(80, 80, "red", 500, 200);
 }
 
 var myGameArea = {
@@ -57,6 +73,15 @@ function updateGameArea() {
     myGameArea.clear();
     myGamePiece.newPos();
     myGamePiece.update();
+	testEnemy.newPos();
+	testEnemy.update();
+	
+	 collision = testCollision();
+	 if(collision == true){
+		 ctx.clearRect(testEnemy.x, testEnemy.y, 80, 80);
+		 console.log("collision!");
+	 }
+	
 	
 	if(typeof bullet != "undefined")
 	{
@@ -70,8 +95,10 @@ function updateGameArea() {
 		myGamePiece.x = 1210;
 	}	
 	
+	myGameArea.context.fillStyle = "black";
 	myGameArea.context.font = "bold 16px Arial";
-	myGameArea.context.fillText("Game Piece X: " + myGamePiece.x, 10, 50); 
+	myGameArea.context.fillText("Game Piece X: " + myGamePiece.x, 10, 50);
+	myGameArea.context.fillText("Game Piece Y: " + myGamePiece.y, 10, 20);	
 }
 
 function moveleft() {
@@ -109,17 +136,24 @@ function keyTouch(e) {
     }   
 }
 
-var customer = {
-	name: "Tom Smith",
-	talk: function(){ 
-		return "My name is " + this.name;
-		},
-	talk2: function(){
-		document.write("Talk 2" + this.name);
+function addEnemy() 
+{ 
+   /* With multiple enemies on the screen we should look
+   into the addChild functionality I think this will allow us to remove
+   them as well.  Same goes for bullets.*/
+}
+
+function testCollision(){
+	if (typeof bullet != "undefined"){
+		if(bullet.x < testEnemy.x + 80 && bullet.x+10 > testEnemy.x && bullet.y < testEnemy.y+80 && bullet.y+10 > testEnemy.y){
+			return true;
+		}
 	}
 }
 	
 
+	
+	
 
 
 
