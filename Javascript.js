@@ -1,10 +1,5 @@
 
 
-
-
-
-
-
 window.addEventListener("keydown", keyTouch, false);
 window.addEventListener("keyup", clearmove, false);
 
@@ -13,6 +8,10 @@ var lives = 3;
 var playerScore = 0;
 var computerScore = 0;
 var collision = false;
+var compWords = ["domain", "software", "website", "computer", "programmer"];
+var humanWords = ["firewall", "database", "compile", "algorithm", "router"];
+var cWord; //computer word
+var pWord; //player word
 
 /* I think the computer and the player should each have
 3 - 5 predetermined words.  Maybe we could store them in an array.*/
@@ -22,6 +21,8 @@ function startGame() {
     myGamePiece = new component(80, 80, "cat.jpg", 590, 565, "image");
     myGameArea.start();
 	testEnemy = new component(80, 80, "red", 500, 200);
+    cWord = compWords[0];
+    pWord = humanWords[0];
 }
 
 var myGameArea = {
@@ -98,7 +99,9 @@ function updateGameArea() {
 	myGameArea.context.fillStyle = "black";
 	myGameArea.context.font = "bold 16px Arial";
 	myGameArea.context.fillText("Game Piece X: " + myGamePiece.x, 10, 50);
-	myGameArea.context.fillText("Game Piece Y: " + myGamePiece.y, 10, 20);	
+	myGameArea.context.fillText("Game Piece Y: " + myGamePiece.y, 10, 20);
+	myGameArea.context.fillText ("Computer word: " + cWord, 10, 80);
+	myGameArea.context.fillText ("Player word: " + pWord, 10, 110);	
 }
 
 function moveleft() {
@@ -123,15 +126,15 @@ function keyTouch(e) {
     switch(e.keyCode) {
         case 37:
             // left key pressed
-			moveleft();
-			break;       
+		moveleft();
+		break;       
         case 39:
             // right key pressed
-			moveright();
+	    moveright();
             break;  
-		case 32:
-            // right key pressed
-			fireBullet();
+	case 38:
+            // up key pressed
+	    fireBullet();
             break;  			
     }   
 }
@@ -141,6 +144,8 @@ function addEnemy()
    /* With multiple enemies on the screen we should look
    into the addChild functionality I think this will allow us to remove
    them as well.  Same goes for bullets.*/
+
+/*are we thinking that enemies are the letters dropping? */
 }
 
 function testCollision(){
