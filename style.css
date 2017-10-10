@@ -2,13 +2,13 @@ canvas {
   border: 1px solid black;
   margin: 10px;
 }
-  
+
 button {
-  position: relative;	 
+  position: relative;
 }
 
 th, td {
-    padding: 5px;    
+    padding: 5px;
 }
 
 #nickname{
@@ -55,7 +55,7 @@ a.button{
 }
 
 #here{
-	background-color: green;   
+	background-color: green;
 }
 
 a.button:hover{
@@ -71,28 +71,61 @@ footer{
 	background-color:black;
 	height: 10%;
 	margin-bottom: 2%;
-	display: block;	
+	display: block;
 }
 
 @media only screen and (max-width: 768px) {
     /* For mobile phones: */
-[class="dropdown"] {       
+[class="dropdown"] {
 		width: 92%;
 		margin: 0 auto;
 		list-style-type: none;
-		padding: 10px;		
+		padding: 10px;
 }
 }
 
 @media only screen and (max-width: 768px) {
     /* For mobile phones: */
-a.button {       
+a.button {
 		width: 92%;
 		margin: 0 auto;
 		margin: 2px;
         list-style-type: none;
-        padding: 10px; 
+        padding: 10px;
 }
 }
 
+#computerWord p{
+  background-color: lightpink;
+  color: black;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 2px solid black;
+  margin: 2px;
+  width: 1.5%;
+}
 
+#humanWord p{
+  background-color: lightblue;
+  color: black;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 2px solid black;
+  margin: 2px;
+  width: 1.5%;
+
+}
+#computerWord{
+  display: inline;
+}
+#humanWord{
+  display: inline;
+}

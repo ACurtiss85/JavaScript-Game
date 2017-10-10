@@ -5,28 +5,34 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="id=teamName">
-  <meta name="description" content="JS Game">    
-  <link rel="stylesheet" type="text/css" href="style.css"> 
+  <meta name="description" content="JS Game">
+  <link rel="stylesheet" type="text/css" href="style.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
 
-<body onload="startGame()"> 
+<body onload="startGame()">
   <header class = titlediv>
 	<h1 id="nickname">WELCOME TO WORD SHOOTER</h1>
 	<hr>
   </header>
-  
+
   <nav class="navbar">
     <ul class="listing">
     <li><a href="../index.html" class="button" id="here">Home</a></li>
     <li><a href="../aboutme/aboutme.html" class="button">Leader Board</a></li>
     </ul>
-  </nav>    
-  <section> 
+  </nav>
+  <section>
     <canvas id="myCanvas" width="1300" height="650"></canvas>
-    <br> 
+    <br>
   </section>
 
+  <section class = "word" id="computerWord">
+
+  </section>
+  <section class = "word" id="humanWord">
+
+  </section>
 <script src="Javascript.js"></script>
 </body>
 </html>

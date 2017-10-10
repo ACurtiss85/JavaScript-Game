@@ -7,8 +7,12 @@ var myGamePiece;
 var lives = 3;
 var playerScore = 0;
 var computerScore = 0;
+//Just using this now for testing to display the computer's word
+var computerWord = "tester";
+var humanWord = "testing";
+
 var collision = false;
-var compWords = ["domain", "software", "website", "computer", "programmer"];
+var compWords = ["domain", "software", "website", "computer", "programs"];
 var humanWords = ["firewall", "database", "compile", "algorithm", "router"];
 var enemies = [];
 var cWord; //computer word
@@ -20,12 +24,12 @@ var blockSpeed = 200;
 3 - 5 predetermined words.  Maybe we could store them in an array.*/
 
 function startGame() {
-
     myGamePiece = new component(80, 80, "cat.jpg", 590, 565, "image");
     myGameArea.start();
     cWord = compWords[0];
     pWord = humanWords[0];
 		addEnemy();
+		drawWordBoard();
 }
 
 var myGameArea = {
@@ -80,7 +84,6 @@ function updateGameArea() {
     myGamePiece.update();
 
 		updateEnemyArray();
-
 	 collision = testCollision();
 	 if(collision == true){
 		 ctx.clearRect(testEnemy.x, testEnemy.y, 80, 80);
@@ -182,6 +185,14 @@ function addEnemy()
    them as well.  Same goes for bullets.*/
 
 /*are we thinking that enemies are the letters dropping? */
+
+/*I implemented an enemies array and gave our componenets a
+life value. This way, we can add enemies to the enemies array and then
+pop them out of the arry when their life value is 0. Then draw what's
+in the array each iteration of the frame draw, which should only be enemies with
+valid life value and location. This also allows for deleting objects after being
+hit by a bullet*/
+
 return testEnemy;
 }
 
@@ -193,4 +204,29 @@ function testCollision(){
 		}
 	}
 	}
+}
+
+function drawWordBoard(){
+	var elementC = document.getElementById("computerWord");
+	var elementH = document.getElementById("humanWord");
+
+
+	for(i = 0; i < computerWord.length; i++){
+		var letter = document.createElement("p");
+		letter.id = "computerLetter" + i;
+		letter.class = "letter";
+		console.log(letter.class);
+		letter.innerHTML = computerWord[i];
+		elementC.appendChild(letter);
+	}
+
+	for(i = 0; i < humanWord.length; i++){
+		var letter = document.createElement("p");
+		letter.id = "humanLetter" + i;
+		letter.class = "letter";
+		console.log(letter.class);
+		letter.innerHTML = humanWord[i];
+		elementH.appendChild(letter);
+	}
+
 }
