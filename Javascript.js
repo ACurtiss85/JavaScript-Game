@@ -14,6 +14,7 @@ var humanWord = "testing";
 var collision = false;
 var compWords = ["domain", "software", "website", "computer", "programs"];
 var humanWords = ["firewall", "database", "compile", "algorithm", "router"];
+var letters = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
 var enemies = [];
 var cWord; //computer word
 var pWord; //player word
@@ -54,6 +55,7 @@ function component(width, height, color, x, y, type) {
         this.image = new Image();
         this.image.src = color;
     }
+
     this.width = width;
     this.height = height;
     this.speedX = 0;
@@ -67,10 +69,23 @@ function component(width, height, color, x, y, type) {
                 this.x,
                 this.y,
                 this.width, this.height);
-        } else {
+        } else if(type == "letter") {
+ 	    //random letter generation
+	    var randPos = Math.floor(Math.random()*26);
+	    var currLetter = letters[randPos];
+	    
             ctx.fillStyle = color;
-            ctx.fillRect(this.x, this.y, this.width, this.height);
+            //ctx.fillText(currLetter, 10, 10);
+            
+	    ctx.fillRect(this.x, this.y, this.width, this.height);
+
+            //ctx.strokeText(currLetter, 10, 10);
         }
+	else{
+	    ctx.fillStyle = color;
+            ctx.fillRect(this.x, this.y, this.width, this.height);
+
+	}
     }
     this.newPos = function() {
         this.x += this.speedX;
@@ -176,10 +191,16 @@ function updateEnemyArray(){
 
 function addEnemy()
 {
+
 	canvas = document.getElementById('myCanvas');
 	randomX = Math.floor((Math.random() *canvas.width) +1);
-	testEnemy = new component(80, 80, "red", randomX, 0);
+	testEnemy = new component(80, 80, "red", randomX, 0, "letter");
+	//textEnemy.fillText(currLetter, 10, 10);
 	testEnemy.speedY = 2;
+
+
+
+
    /* With multiple enemies on the screen we should look
    into the addChild functionality I think this will allow us to remove
    them as well.  Same goes for bullets.*/
@@ -188,7 +209,7 @@ function addEnemy()
 
 /*I implemented an enemies array and gave our componenets a
 life value. This way, we can add enemies to the enemies array and then
-pop them out of the arry when their life value is 0. Then draw what's
+pop them out of the array when their life value is 0. Then draw what's
 in the array each iteration of the frame draw, which should only be enemies with
 valid life value and location. This also allows for deleting objects after being
 hit by a bullet*/
