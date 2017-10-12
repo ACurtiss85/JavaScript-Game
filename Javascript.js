@@ -17,9 +17,11 @@ var compWords = ["domain", "software", "website", "computer", "programs"];
 var humanWords = ["firewall", "database", "compile", "algorithm", "router"];
 var letters = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
 var enemies = [];
-var enemyLetters =[];
+var enemyLetters =[]; //array of letters that are currently in play
 var cWord; //computer word
 var pWord; //player word
+var pLetters = []; //array of letters that player has gotten
+var cLetters = []; //array of letters that computer has gotten (dropped to bottom)
 var blockAddTime = 0;
 var blockSpeed = 100;
 
@@ -121,6 +123,7 @@ function updateGameArea() {
 	collision = testCollision();
 	if(collision == true){
 		ctx.clearRect(testEnemy.x, testEnemy.y, 80, 80);
+		
 	}
 
 
@@ -179,7 +182,7 @@ function keyTouch(e) {
 			moveright();
             break;
 		case 70:
-            // I had to change the fire key to 'f' so the screen wouldnt move around
+            // I had to change the fire key to 'f' so the screen wouldn't move around
 			fireBullet();
             break;
     }
