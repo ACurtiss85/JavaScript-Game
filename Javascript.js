@@ -258,6 +258,49 @@ function testCollision(){
 	}
 }
 
+function checkWin() {
+
+//var cWord; //computer word
+//var pWord; //player word
+//var pLetters = []; //array of letters that player has gotten
+//var cLetters = [];
+
+var pWordTemp[];
+var cWordTemp[];
+for (i = 0; i < pWord.length; i++) {
+	pWordTemp.push(pWord.substr(i,1));
+}
+
+for (i = 0; i < cWord.length; i++) {
+	cWordTemp.push(cWord.substr(i,1));
+}
+
+for(i = 0; i < pWord.length; i++){
+	for(j = 0; j < pLetters.length; p++){
+		if (pWordTemp[i] === pLetters[j]){
+		pWordTemp.splice(i,1);
+		}
+	}
+}
+
+for(i = 0; i < cWord.length; i++){
+	for(j = 0; j < cLetters.length; p++){
+		if (cWordTemp[i] === cLetters[j]){
+		cWordTemp.splice(i,1);
+		}
+	}
+}
+
+if (pWordTemp.length == 0){
+	window.alert("Player Wins");
+}
+
+if (cWordTemp.length == 0) {
+	window.alert("Computer Wins");
+}
+
+
+}
 function drawWordBoard(){
 	var elementC = document.getElementById("computerWord");
 	var elementH = document.getElementById("humanWord");
