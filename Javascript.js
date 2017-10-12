@@ -258,6 +258,7 @@ function testCollision(){
 	}
 }
 
+/*
 function checkWin() {
 
 //var cWord; //computer word
@@ -301,6 +302,8 @@ if (cWordTemp.length == 0) {
 
 
 }
+
+*/
 function drawWordBoard(){
 	var elementC = document.getElementById("computerWord");
 	var elementH = document.getElementById("humanWord");
