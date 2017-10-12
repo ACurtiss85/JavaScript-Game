@@ -5,6 +5,7 @@ window.addEventListener("keyup", clearmove, false);
 
 var myGamePiece;
 var lives = 3;
+var level = 1;
 var playerScore = 0;
 var computerScore = 0;
 //Just using this now for testing to display the computer's word
@@ -25,6 +26,7 @@ var blockSpeed = 200;
 3 - 5 predetermined words.  Maybe we could store them in an array.*/
 
 function startGame() {
+	update_scores();
     myGamePiece = new component(80, 80, "cat.jpg", 590, 565, "image");
     myGameArea.start();
     cWord = compWords[0];
@@ -49,7 +51,7 @@ var myGameArea = {
 }
 
 function component(width, height, color, x, y, type) {
-		this.lifeVal = 1;
+	this.lifeVal = 1;
     this.type = type;
     if (type == "image") {
         this.image = new Image();
@@ -97,12 +99,20 @@ function updateGameArea() {
     myGameArea.clear();
     myGamePiece.newPos();
     myGamePiece.update();
-
-		updateEnemyArray();
-	 collision = testCollision();
-	 if(collision == true){
-		 ctx.clearRect(testEnemy.x, testEnemy.y, 80, 80);
-	 }
+	
+	/*For now I just add one point to player score when you shoot a block and the level goes up when you get to 3 
+	I think the easiest way to do the score would be to use the final level score after all lives are gone
+	We could also do a points system if we want to make it a bit more complex.*/
+	if(playerScore >= 3){
+	level++;
+	playerScore = 0;
+	}
+	
+	updateEnemyArray();
+	collision = testCollision();
+	if(collision == true){
+		ctx.clearRect(testEnemy.x, testEnemy.y, 80, 80);
+	}
 
 
 	if(typeof bullet != "undefined")
@@ -119,10 +129,14 @@ function updateGameArea() {
 
 	myGameArea.context.fillStyle = "black";
 	myGameArea.context.font = "bold 16px Arial";
-	myGameArea.context.fillText("Game Piece X: " + myGamePiece.x, 10, 50);
-	myGameArea.context.fillText("Game Piece Y: " + myGamePiece.y, 10, 20);
-	myGameArea.context.fillText ("Computer word: " + cWord, 10, 80);
-	myGameArea.context.fillText ("Player word: " + pWord, 10, 110);
+	myGameArea.context.fillText("Level: " + level, 10, 20);
+	myGameArea.context.fillText("Player Score: " + playerScore, 10, 50);
+	myGameArea.context.fillText("Computer Score: " + computerScore, 10, 80);
+	myGameArea.context.fillText("Game Piece X: " + myGamePiece.x, 10, 110);
+	myGameArea.context.fillText ("Computer word: " + cWord, 10, 140);
+	myGameArea.context.fillText ("Player word: " + pWord, 10, 170);
+	myGameArea.context.fillText ("Press 'F' To Fire ", 600, 20);
+	myGameArea.context.fillText ("Lives: " + lives, 10, 200);
 }
 
 function moveleft() {
@@ -147,15 +161,15 @@ function keyTouch(e) {
     switch(e.keyCode) {
         case 37:
             // left key pressed
-		moveleft();
-		break;
+			moveleft();
+			break;
         case 39:
             // right key pressed
-	    moveright();
+			moveright();
             break;
-	case 38:
-            // up key pressed
-	    fireBullet();
+		case 70:
+            // I had to change the fire key to 'f' so the screen wouldnt move around
+			fireBullet();
             break;
     }
 }
@@ -193,7 +207,7 @@ function addEnemy()
 {
 
 	canvas = document.getElementById('myCanvas');
-	randomX = Math.floor((Math.random() *canvas.width) +1);
+	randomX = Math.floor((Math.random() * (canvas.width - 80)) +1);
 	testEnemy = new component(80, 80, "red", randomX, 0, "letter");
 	//textEnemy.fillText(currLetter, 10, 10);
 	testEnemy.speedY = 2;
@@ -222,6 +236,7 @@ function testCollision(){
 		for(i = 0; i < enemies.length; i++){
 		if(bullet.x < enemies[i].x + 80 && bullet.x+10 > enemies[i].x && bullet.y < enemies[i].y+80 && bullet.y+10 > enemies[i].y){
 			enemies[i].lifeVal = 0;
+			playerScore++;
 		}
 	}
 	}

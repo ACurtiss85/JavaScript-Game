@@ -7,7 +7,9 @@
   <meta name="author" content="id=teamName">
   <meta name="description" content="JS Game">
   <link rel="stylesheet" type="text/css" href="style.css">
+  <link rel="stylesheet" href="highscore.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script type="text/javascript" src="HighscoreAPI.js"></script>
 </head>
 
 <body onload="startGame()">
@@ -15,7 +17,7 @@
 	<h1 id="nickname">WELCOME TO WORD SHOOTER</h1>
 	<hr>
   </header>
-
+  
   <nav class="navbar">
     <ul class="listing">
     <li><a href="../index.html" class="button" id="here">Home</a></li>
@@ -33,6 +35,24 @@
   <section class = "word" id="humanWord">
 
   </section>
+ 
+ <div id="highdiv"> <!-- For the hi-score api -->
+			<table id="hightable">
+				<tr>
+					<th>User</th>
+					<th>Score</th>
+				</tr>
+
+			</table>
+			<table id="myhightable">
+				<tr>
+					<th colspan="2">Your High Score</th>
+				</tr>
+				<tr id="myhighscore">
+					<td colspan="2">You don't have one yet!</td>
+				</tr>
+			</table>
+		</div>
 <script src="Javascript.js"></script>
 </body>
 </html>
