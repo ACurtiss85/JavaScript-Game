@@ -64,6 +64,9 @@ function component(width, height, color, x, y, type) {
     this.speedY = 0;
     this.x = x;
     this.y = y;
+    //random letter generation
+    var randPos = Math.floor(Math.random()*26);
+    var currLetter = letters[randPos];
     this.update = function() {
         ctx = myGameArea.context;
         if (type == "image") {
@@ -72,15 +75,14 @@ function component(width, height, color, x, y, type) {
                 this.y,
                 this.width, this.height);
         } else if(type == "letter") {
- 	    //random letter generation
-	    var randPos = Math.floor(Math.random()*26);
-	    var currLetter = letters[randPos];
+ 	    
 	    
             ctx.fillStyle = color;
-            //ctx.fillText(currLetter, 10, 10);
+            
             
 	    ctx.fillRect(this.x, this.y, this.width, this.height);
-
+	    ctx.fillStyle = "black";    
+	    ctx.fillText(currLetter, this.x + this.width/2, this.y +this.height/2);
             //ctx.strokeText(currLetter, 10, 10);
         }
 	else{
