@@ -17,10 +17,11 @@ var compWords = ["domain", "software", "website", "computer", "programs"];
 var humanWords = ["firewall", "database", "compile", "algorithm", "router"];
 var letters = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
 var enemies = [];
+var enemyLetters =[];
 var cWord; //computer word
 var pWord; //player word
 var blockAddTime = 0;
-var blockSpeed = 200;
+var blockSpeed = 100;
 
 /* I think the computer and the player should each have
 3 - 5 predetermined words.  Maybe we could store them in an array.*/
@@ -67,6 +68,11 @@ function component(width, height, color, x, y, type) {
     //random letter generation
     var randPos = Math.floor(Math.random()*26);
     var currLetter = letters[randPos];
+    //if type is letter then we add it to the enemyLetters array 
+    if(type=="letter"){
+	enemyLetters.push(currLetter);
+    }
+
     this.update = function() {
         ctx = myGameArea.context;
         if (type == "image") {
@@ -81,7 +87,8 @@ function component(width, height, color, x, y, type) {
             
             
 	    ctx.fillRect(this.x, this.y, this.width, this.height);
-	    ctx.fillStyle = "black";    
+	    ctx.font = "18pt Arial";
+	    ctx.fillStyle = "black";
 	    ctx.fillText(currLetter, this.x + this.width/2, this.y +this.height/2);
             //ctx.strokeText(currLetter, 10, 10);
         }
@@ -139,6 +146,8 @@ function updateGameArea() {
 	myGameArea.context.fillText ("Player word: " + pWord, 10, 170);
 	myGameArea.context.fillText ("Press 'F' To Fire ", 600, 20);
 	myGameArea.context.fillText ("Lives: " + lives, 10, 200);
+	//for testing
+	myGameArea.context.fillText("LetterArray: " + enemyLetters, 10, 230);
 }
 
 function moveleft() {
@@ -190,9 +199,11 @@ function updateEnemyArray(){
 	for(i = 0; i < enemies.length; i++){
 		if(enemies[i].lifeVal == 0){
 			enemies.splice(i, 1);
+			enemyLetters.splice(i,1);
 		}
 		if(enemies[i].y > canvas.height){
 			enemies.splice(i, 1);
+			enemyLetters.splice(i,1);
 		}
 	}
 
