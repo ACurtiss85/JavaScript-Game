@@ -13,6 +13,22 @@
 </head>
 
 <body onload="startGame()">
+
+	<audio id="myMusic">
+		<source src="SpanishJam.wav" type="audio/wav">		
+		Your browser does not support the audio element.
+	</audio>
+	
+	<audio id="pew">
+		<source src="Pew_Pew.mp3" type="audio/mp3">		
+		Your browser does not support the audio element.
+	</audio>
+	
+	<audio id="blast">
+		<source src="blast.mp3" type="audio/mp3">		
+		Your browser does not support the audio element.
+	</audio>
+
   <header class = titlediv>
 	<h1 id="nickname">WELCOME TO WORD SHOOTER</h1>
 	<hr>
@@ -21,8 +37,12 @@
   <nav class="navbar">
     <ul class="listing">
     <li><a href="../index.html" class="button" id="here">Home</a></li>
-    <li><a href="Instructions.html" class="button">Instructions</a></li>
+    <li><a href="Instructions.html" class="button">Instructions</a></li>	
     </ul>
+	<button onclick="playAudio()" type="button">Play Music</button>
+	<button onclick="pauseAudio()" type="button">Pause Music</button> 
+	<button onclick="playFX()" type="button">Allow SoundFX</button>
+	<button onclick="muteFX()" type="button">Mute SoundFX</button> 
   </nav>
   <section>
     <canvas id="myCanvas" width="1300" height="650"></canvas>

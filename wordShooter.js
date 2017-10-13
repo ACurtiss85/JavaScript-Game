@@ -21,10 +21,30 @@ var blockSpeed = 100;
 var gameOver = false;
 var wordCount = 0;
 var enemySpeed = 7;
+var m = document.getElementById("myMusic"); 
+var pew = document.getElementById("pew");
+var blast = document.getElementById("blast");
+var soundFX = false;
+
+function playAudio() { 
+    m.play(); 
+} 
+
+function pauseAudio() { 
+    m.pause(); 
+} 
+
+function playFX() {
+	soundFX = true;    
+} 
+
+function muteFX() { 
+soundFX = false;   
+} 
 
 function startGame() {
-	update_scores();
-	
+	alert("Click When Ready To Play");
+	update_scores();	
     myGamePiece = new component(80, 80, "cat.jpg", 590, 565, "image");
     myGameArea.start();
 	pickWords();
@@ -68,6 +88,7 @@ function component(width, height, color, x, y, type) {
     this.speedY = 0;
     this.x = x;
     this.y = y;
+	
     //random letter generation
     var randPos = Math.floor(Math.random()*19);
     var currLetter = letters[randPos];
@@ -76,24 +97,22 @@ function component(width, height, color, x, y, type) {
         ctx = myGameArea.context;
         if (type == "image") {
             ctx.drawImage(this.image,
-                this.x,
-                this.y,
-                this.width, this.height);
+            this.x,
+            this.y,
+            this.width, this.height);
         } else if(type == "letter") {
 			
             ctx.fillStyle = color;
-
-	    ctx.fillRect(this.x, this.y, this.width, this.height);
-	    ctx.font = "24pt Arial";
-	    ctx.fillStyle = "black";
-	    ctx.fillText(currLetter, this.x + this.width/2, this.y +this.height/2);           
-      this.compText = currLetter;
+			ctx.fillRect(this.x, this.y, this.width, this.height);
+			ctx.font = "24pt Arial";
+			ctx.fillStyle = "black";
+			ctx.fillText(currLetter, this.x + this.width/2, this.y +this.height/2);           
+			this.compText = currLetter;
         }
-	else{
-	    ctx.fillStyle = color;
+		else{
+			ctx.fillStyle = color;
             ctx.fillRect(this.x, this.y, this.width, this.height);
-
-	}
+			}
     }
     this.newPos = function() {
         this.x += this.speedX;
@@ -102,49 +121,50 @@ function component(width, height, color, x, y, type) {
 }
 
 function updateGameArea() {
-if(gameOver == false){   
-
-    myGameArea.clear();
-    myGamePiece.newPos();
-    myGamePiece.update();
+	if(gameOver == false){
+		myGameArea.clear();
+		myGamePiece.newPos();
+		myGamePiece.update();
 	
-	if(lives < 0){
-		gameOver();
-	}
+		if(lives < 0){
+			GameOver();
+		}
 
-	updateEnemyArray();
-	collision = testCollision();
-	if(collision == true){
-		ctx.clearRect(testEnemy.x, testEnemy.y, 80, 80);
-	}
+		updateEnemyArray();
+		collision = testCollision();
+		if(collision == true){
+			ctx.clearRect(testEnemy.x, testEnemy.y, 80, 80);
+		}
 
-	if(typeof bullet != "undefined")
-	{
-		bullet.newPos();
-		bullet.update();
-	}
-	if(myGamePiece.x < 4){
-		myGamePiece.x = 4;
-	}
-	if(myGamePiece.x > 1210){
-		myGamePiece.x = 1210;
-	}
-
-	myGameArea.context.fillStyle = "black";
-	myGameArea.context.font = "bold 16px Arial";
-	myGameArea.context.fillText("Level: " + level, 10, 20);
-	myGameArea.context.fillText ("Lives: " + lives, 10, 50);
-	myGameArea.context.fillText("Player Score: " + playerScore, 10, 80);	
-	myGameArea.context.fillText("Game Piece X: " + myGamePiece.x, 10, 110);
-	myGameArea.context.fillText ("Computer word: " + cWord, 10, 140);
-	myGameArea.context.fillText ("Player word: " + pWord, 10, 170);
-	myGameArea.context.fillText ("Press 'F' To Fire ", 600, 20);
-	myGameArea.context.fillText ("Left Arrow Goes left, Rifht Arrow Goes Right", 500, 50);	
-	myGameArea.context.fillText ("pLetters: " + pLetters, 10, 290);
-	myGameArea.context.fillText ("cLetters: " + cLetters, 10, 310);
-	myGameArea.context.fillText ("WordCount: " + wordCount, 10, 490);
+		if(typeof bullet != "undefined")
+		{
+			bullet.newPos();
+			bullet.update();
+		}
+		
+		if(myGamePiece.x < 4){
+			myGamePiece.x = 4;
+		}
 	
-}
+		if(myGamePiece.x > 1210){
+			myGamePiece.x = 1210;
+		}
+
+		myGameArea.context.fillStyle = "black";
+		myGameArea.context.font = "bold 16px Arial";
+		myGameArea.context.fillText("Level: " + level, 10, 20);
+		myGameArea.context.fillText ("Lives: " + lives, 10, 50);
+		myGameArea.context.fillText("Player Score: " + playerScore, 10, 80);	
+		myGameArea.context.fillText("Game Piece X: " + myGamePiece.x, 10, 110);
+		myGameArea.context.fillText ("Computer word: " + cWord, 10, 140);
+		myGameArea.context.fillText ("Player word: " + pWord, 10, 170);			
+		myGameArea.context.fillText ("Press 'F' To Fire ", 600, 20);
+		myGameArea.context.fillText ("Left Arrow Goes left, Rifht Arrow Goes Right", 500, 50);	
+		myGameArea.context.fillText ("pLetters: " + pLetters, 10, 290);
+		myGameArea.context.fillText ("cLetters: " + cLetters, 10, 310);
+		myGameArea.context.fillText ("WordCount: " + wordCount, 10, 490);
+			
+	}
 }
 
 function moveleft() {
@@ -161,6 +181,9 @@ function clearmove() {
 }
 
 function fireBullet(){
+	if (soundFX == true){
+		pew.play();
+	}
 	bullet = new component(10, 10, "red", (myGamePiece.x + 40), (myGamePiece.y + 40));
 	bullet.speedY = -20;
 }
@@ -189,6 +212,8 @@ function updateEnemyArray(){
 		var dropBlock = addEnemy();
 		enemies.push(dropBlock);
 	}
+	
+	
 	//Update time units for adding enemies
 	blockAddTime +=1;
 
@@ -196,152 +221,147 @@ function updateEnemyArray(){
 	for(i = 0; i < enemies.length; i++){
 		if(enemies[i].lifeVal == 0){
 			enemies.splice(i, 1);
-
 		}
+		
 		if(enemies[i].y > canvas.height){
 			var l = enemies[i].compText;
-			if(cLetters.includes(enemies[i].compText)){
-					
-			
-			while (cLetters.includes(enemies[i].compText)){
-			var index = cLetters.indexOf(enemies[i].compText);
-				if (index > -1 ){
-					cLetters.splice(index, 1);
-					lives--;					
-				}
-			}
-			enemies.splice(i, 1);
-
-			redrawCompBoard(l);
+			if(cLetters.includes(l)){
+				while (cLetters.includes(enemies[i].compText)){
+				var index = cLetters.indexOf(enemies[i].compText);
+					if (index > -1 ){
+						cLetters.splice(index, 1);
+						lives--;					
+					}
+				}			
+				enemies.splice(i, 1);				
+				redrawCompBoard(l);
+				//
 			}			
 			
 			if(cLetters.length <= 0){
 				clearBoard();
-					if(wordCount < (humanWords.length-1)){
-						
-						wordCount++;
-					}
-					else if (wordCount >= (humanWords.length-1)){
-						level++;						
-						wordCount = 0;
-					}
-						
-					pickWords();
-						
+				if(wordCount < (humanWords.length-1)){						
+					wordCount++;
+					enemies=[];
+				}
+				else if (wordCount >= (humanWords.length-1)){
+					level++;	
+					enemies=[];					
+					wordCount = 0;
+				}						
+				cLetters = [];
+				pLetters = [];
 				
-					cLetters = [];
-					pLetters = [];
-					for(i = 0; i < cWord.length; i++){
-						cLetters[i] = cWord[i];
+				pickWords();				
+				
+					for(z = 0; z < cWord.length; z++){
+						cLetters[z] = cWord[z];
 					}
-					for(i = 0; i < pWord.length; i++){
-						pLetters[i] = pWord[i];
+					for(w = 0; w < pWord.length; w++){
+						pLetters[w] = pWord[w];
 					}			
 					drawWordBoard();			
-			}
-			
+			}			
 		}
 	}
-
 	
-	for(i = 0; i < enemies.length; i++){
-		enemies[i].newPos();
-		enemies[i].update();
+	for(s = 0; s < enemies.length; s++){
+		enemies[s].newPos();
+		enemies[s].update();
 	}
-
-
 }
 
 function addEnemy()
 {
-
 	canvas = document.getElementById('myCanvas');
 	randomX = Math.floor((Math.random() * (canvas.width - 80)) +1);
 	testEnemy = new component(80, 80, "red", randomX, 0, "letter");
-	testEnemy.speedY = enemySpeed;
-  
-return testEnemy;
+	testEnemy.speedY = enemySpeed;  
+	return testEnemy;
 }
 
 function testCollision(){
+	ii=0;
 	if (typeof bullet != "undefined"){
-		for(i = 0; i < enemies.length; i++){
-		if(bullet.x < enemies[i].x + 80 && bullet.x+10 > enemies[i].x && bullet.y < enemies[i].y+80 && bullet.y+10 > enemies[i].y){
+		for(ii = 0; ii < enemies.length; ii++){
+			if(bullet.x < enemies[ii].x + 80 && bullet.x+10 > enemies[ii].x && bullet.y < enemies[ii].y+80 && bullet.y+10 > enemies[ii].y){
      
-			enemies[i].lifeVal = 0;
+				if(soundFX == true){
+					blast.play();
+				}
+				enemies[ii].lifeVal = 0;		
 			
+			var ll = enemies[ii].compText;				
 			
-			
-			while (pLetters.includes(enemies[i].compText)){
-			var index = pLetters.indexOf(enemies[i].compText);
+			//remove letter that was hit from pLetters array
+			while (pLetters.includes(ll)){
+			var index = pLetters.indexOf(ll);
 				if (index > -1 ){
 					pLetters.splice(index, 1);	
 						playerScore++;
+						redrawPlayerBoard(ll);	
 				}
-			}
+			}		
 			
+			enemies.splice(ii, 1);
 			
-			var ll = enemies[i].compText;
-			enemies.splice(i, 1);
-			redrawPlayerBoard(ll)			
+					
 			
-			if(pLetters.length <= 4){
+			if(pLetters.length <= 0){
 				clearBoard();
 					if(wordCount < (humanWords.length-1)){
 						playerScore++;
 						wordCount++;
+						enemies=[];
 					}
 					else if (wordCount >= (humanWords.length-1)){
 						playerScore++;
 						level++;
 						enemySpeed++;
 						wordCount = 0;
+						enemies=[];
 					}
-						
-					pickWords();
-						
-				
 					cLetters = [];
 					pLetters = [];
-					for(i = 0; i < cWord.length; i++){
-						cLetters[i] = cWord[i];
+					alert("Get ready for the next word!");
+					pickWords();				
+					
+					for(g = 0; g < cWord.length; g++){
+						cLetters[g] = cWord[g];
 					}
-					for(i = 0; i < pWord.length; i++){
-						pLetters[i] = pWord[i];
+					for(h = 0; h < pWord.length; h++){
+						pLetters[h] = pWord[h];
 					}			
 					drawWordBoard();			
-			}		
+				}		
 			
+			}
 		}
-	}
 	}
 }
 
+
+
 function drawWordBoard(){
-	var elementC = document.getElementById("computerWord");
-	var elementH = document.getElementById("humanWord");
+	var elementC = null;
+	var elementH = null;
+	elementC = document.getElementById("computerWord");
+	elementH = document.getElementById("humanWord");
 
-
-	for(i = 0; i < cWord.length; i++){
+	for(b = 0; b < cWord.length; b++){
 		var letter = document.createElement("p");
-		letter.id = "computerLetter" + i;
-		letter.class = "letter";
-		
-		letter.innerHTML = cWord[i];
-		
-		elementC.appendChild(letter);
-		console.log("Worked   ");
-				
+		letter.id = "computerLetter" + b;
+		letter.class = "letter";		
+		letter.innerHTML = cWord[b];		
+		elementC.appendChild(letter);					
 	}
 
-	for(i = 0; i < pWord.length; i++){
+	for(v = 0; v < pWord.length; v++){
 		var letter = document.createElement("p");
-		letter.id = "humanLetter" + i;
-		letter.class = "letter";
-	
-		letter.innerHTML = pWord[i];
+		letter.id = "humanLetter" + v;
+		letter.class = "letter";	
+		letter.innerHTML = pWord[v];
 		elementH.appendChild(letter);
-
 	}
 }
 
@@ -364,28 +384,29 @@ function pickWords(){
 	pWord = humanWords[wordCount];
 }
 
-function redrawCompBoard(l){
-	
-	for(i = 0; i < cWord.length; i++){
-		
-		if(document.getElementById("computerLetter" + i).innerHTML == l)
-		document.getElementById("computerLetter" + i).style.backgroundColor = "black";
+function redrawCompBoard(l){	
+	for(a = 0; a < cWord.length; a++){		
+		if(document.getElementById("computerLetter" + a).innerHTML == l)
+		document.getElementById("computerLetter" + a).style.backgroundColor = "black";
 	}	
 }
 
 function redrawPlayerBoard(ll){
-	console.log(ll);
-	for(i = 0; i < pWord.length; i++){
-		
-	if(document.getElementById("humanLetter" + i).innerHTML == ll)
-		document.getElementById("humanLetter" + i).style.backgroundColor = "black";
+	for(o = 0; o < pWord.length; o++){		
+		if(document.getElementById("humanLetter" + o).innerHTML == ll){
+			document.getElementById("humanLetter" + o).style.backgroundColor = "black";
+		}
 	}	
 }
 
-function gameOver(){
-	ctx.clearRect(0, 0, canvas.width, canvas.height);
+function GameOver(){
+	
 	myGameArea.context.fillStyle = "black";
-	myGameArea.context.font = "bold 16px Arial";
-	myGameArea.context.fillText("GAME OVER ", 500, 200);
+	myGameArea.context.font = "bold 32px Arial";
+	myGameArea.context.fillText("GAME OVER ", 550, 300);
+	//myGameArea.clear();
+   // myGamePiece.newPos();
+    myGamePiece.update();
 	gameOver = true;
+	GameOver();
 }
