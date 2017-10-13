@@ -139,7 +139,7 @@ if(gameOver == false){
 	myGameArea.context.fillText ("Computer word: " + cWord, 10, 140);
 	myGameArea.context.fillText ("Player word: " + pWord, 10, 170);
 	myGameArea.context.fillText ("Press 'F' To Fire ", 600, 20);
-	myGameArea.context.fillText ("Left Arrow Goes left, Rifht Arrow Goes Right", 500, 50);	
+	myGameArea.context.fillText ("Left Arrow Goes left, Right Arrow Goes Right", 500, 50);	
 	myGameArea.context.fillText ("pLetters: " + pLetters, 10, 290);
 	myGameArea.context.fillText ("cLetters: " + cLetters, 10, 310);
 	myGameArea.context.fillText ("WordCount: " + wordCount, 10, 490);
