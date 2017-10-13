@@ -136,6 +136,7 @@ function updateGameArea() {
 			ctx.clearRect(testEnemy.x, testEnemy.y, 80, 80);
 		}
 
+
 		if(typeof bullet != "undefined")
 		{
 			bullet.newPos();
