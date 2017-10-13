@@ -165,21 +165,19 @@ function updateGameArea() {
 		}
 
 		myGameArea.context.fillStyle = "black";
-		myGameArea.context.font = "bold 16px Arial";
+		myGameArea.context.font = "bold 20px Arial";
 		myGameArea.context.fillText("Level: " + level, 10, 20);
 		myGameArea.context.fillText ("Lives: " + lives, 10, 50);
 		myGameArea.context.fillText("Player Score: " + playerScore, 10, 80);	
 		myGameArea.context.fillText ("SoundFX: ", 1100, 30);
-		myGameArea.context.fillText("Game Piece X: " + myGamePiece.x, 10, 110);
-		myGameArea.context.fillText ("Computer word: " + cWord, 10, 140);
-		myGameArea.context.fillText ("Player word: " + pWord, 10, 170);			
 		myGameArea.context.fillText ("Press 'F' To Fire ", 600, 20);
-		myGameArea.context.fillText ("Left Arrow Goes left, Right Arrow Goes Right", 500, 50);	
-		myGameArea.context.fillText ("pLetters: " + pLetters, 10, 290);
-		myGameArea.context.fillText ("cLetters: " + cLetters, 10, 310);
-		myGameArea.context.fillText ("WordCount: " + wordCount, 10, 490);	
-
-	
+		myGameArea.context.fillText ("Left Arrow Goes left, Right Arrow Goes Right", 500, 50);
+		//myGameArea.context.fillText("Game Piece X: " + myGamePiece.x, 10, 110);
+		//myGameArea.context.fillText ("Computer word: " + cWord, 10, 140);
+		//myGameArea.context.fillText ("Player word: " + pWord, 10, 170);				
+		//myGameArea.context.fillText ("pLetters: " + pLetters, 10, 290);
+		//myGameArea.context.fillText ("cLetters: " + cLetters, 10, 310);
+		//myGameArea.context.fillText ("WordCount: " + wordCount, 10, 490);		
 	}
 }
 

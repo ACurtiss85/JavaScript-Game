@@ -129,6 +129,11 @@ a.button {
   display: inline;
 }
 
+h1{
+	font-size: 32px;
+	text-align: center;
+}
+
 article::first-letter {
     color: #ff0000;
     font-size: xx-large;
