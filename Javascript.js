@@ -14,6 +14,8 @@ var humanWord = "testing";
 
 var collision = false;
 var compWords = ["domain", "software", "website", "computer", "programs"];
+var compWordsHit = [];
+var humanWordsHit = [];
 var humanWords = ["firewall", "database", "compile", "algorithm", "router"];
 var letters = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
 var enemies = [];
@@ -34,6 +36,8 @@ function startGame() {
     myGameArea.start();
     cWord = compWords[0];
     pWord = humanWords[0];
+    compWordsHit.length = computerWord.length;
+    humanWordsHit.length = humanWord.length;
 		addEnemy();
 		drawWordBoard();
 }
@@ -70,7 +74,7 @@ function component(width, height, color, x, y, type) {
     //random letter generation
     var randPos = Math.floor(Math.random()*26);
     var currLetter = letters[randPos];
-    //if type is letter then we add it to the enemyLetters array 
+    //if type is letter then we add it to the enemyLetters array
     if(type=="letter"){
 	enemyLetters.push(currLetter);
     }
@@ -83,16 +87,17 @@ function component(width, height, color, x, y, type) {
                 this.y,
                 this.width, this.height);
         } else if(type == "letter") {
- 	    
-	    
+
+
             ctx.fillStyle = color;
-            
-            
+
+
 	    ctx.fillRect(this.x, this.y, this.width, this.height);
 	    ctx.font = "18pt Arial";
 	    ctx.fillStyle = "black";
 	    ctx.fillText(currLetter, this.x + this.width/2, this.y +this.height/2);
             //ctx.strokeText(currLetter, 10, 10);
+      this.compText = currLetter;
         }
 	else{
 	    ctx.fillStyle = color;
@@ -110,20 +115,20 @@ function updateGameArea() {
     myGameArea.clear();
     myGamePiece.newPos();
     myGamePiece.update();
-	
-	/*For now I just add one point to player score when you shoot a block and the level goes up when you get to 3 
+
+	/*For now I just add one point to player score when you shoot a block and the level goes up when you get to 3
 	I think the easiest way to do the score would be to use the final level score after all lives are gone
 	We could also do a points system if we want to make it a bit more complex.*/
 	if(playerScore >= 3){
 	level++;
 	playerScore = 0;
 	}
-	
+
 	updateEnemyArray();
 	collision = testCollision();
 	if(collision == true){
 		ctx.clearRect(testEnemy.x, testEnemy.y, 80, 80);
-		
+
 	}
 
 
@@ -251,6 +256,9 @@ function testCollision(){
 	if (typeof bullet != "undefined"){
 		for(i = 0; i < enemies.length; i++){
 		if(bullet.x < enemies[i].x + 80 && bullet.x+10 > enemies[i].x && bullet.y < enemies[i].y+80 && bullet.y+10 > enemies[i].y){
+      humanWordsHit[i] = checkLetterHuman(enemies[i]);
+			//$('#computerWord').remove();
+			removeLetterHuman(enemies[i]);
 			enemies[i].lifeVal = 0;
 			playerScore++;
 		}
@@ -304,6 +312,36 @@ if (cWordTemp.length == 0) {
 }
 
 */
+
+function removeLetterHuman(enemy){
+
+//  for(i = 0; i < 5; i++){
+//    if(humanWord[i] == enemy.compText){
+			//removeLetter = 'humanLetter' + i;
+//			$("#humanLetter2").remove();
+//	  }
+//  }
+	return false;
+}
+
+function checkLetterHuman(enemy){
+
+ if(humanWord.includes(enemy.compText)){
+   return true;
+  }
+  return false;
+}
+
+function checkLetterComputer(enemy){
+
+ if(computerWord.includes(enemy.compText)){
+   return true;
+  }
+  return false;
+}
+
+
+
 function drawWordBoard(){
 	var elementC = document.getElementById("computerWord");
 	var elementH = document.getElementById("humanWord");
@@ -314,7 +352,7 @@ function drawWordBoard(){
 		letter.id = "computerLetter" + i;
 		letter.class = "letter";
 		console.log(letter.class);
-		letter.innerHTML = computerWord[i];
+    letter.innerHTML = computerWord[i];
 		elementC.appendChild(letter);
 	}
 
@@ -325,6 +363,9 @@ function drawWordBoard(){
 		console.log(letter.class);
 		letter.innerHTML = humanWord[i];
 		elementH.appendChild(letter);
+/*    if(humanWordsHit[i] == true){
+      letter.color = green;
+    }*/
 	}
 
 }
