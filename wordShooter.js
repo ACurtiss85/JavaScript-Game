@@ -10,7 +10,7 @@ var playerScore = 0;
 var collision = false;
 var compWords = ["domain", "software", "website", "computer", "programs"];
 var humanWords = ["firewall", "ascii", "compile", "java", "router"];
-var letters = ["a", "b", "c", "d", "e", "f", "g", "i", "j", "l", "m", "n", "o", "p", "r", "s", "t", "u", "w",];
+var letters = ["a", "b", "c", "d", "e", "f", "g", "i", "j", "l", "m", "n", "o", "p", "r", "s", "t", "u", "v", "w",];
 var enemies = [];
 var cWord; //computer word
 var pWord; //player word
@@ -25,6 +25,7 @@ var m = document.getElementById("myMusic");
 var pew = document.getElementById("pew");
 var blast = document.getElementById("blast");
 var soundFX = false;
+var boxColor = "white";
 
 function playAudio() { 
     m.play(); 
@@ -34,18 +35,22 @@ function pauseAudio() {
     m.pause(); 
 } 
 
-function playFX() {
-	soundFX = true;    
-} 
-
-function muteFX() { 
-soundFX = false;   
+function toggleFX() {
+	if(soundFX == true){
+		soundFX = false;
+		boxColor = "white";
+	}
+	else{
+		soundFX = true;
+		boxColor = "#39FF14";
+	}    
 } 
 
 function startGame() {
 	alert("Click When Ready To Play");
 	update_scores();	
     myGamePiece = new component(80, 80, "cat.jpg", 590, 565, "image");
+	fXBox = new component(25, 25, "#39FF14", 1200, 10, "box");	
     myGameArea.start();
 	pickWords();
 	for(i = 0; i < cWord.length; i++){
@@ -57,6 +62,7 @@ function startGame() {
     pWord = humanWords[wordCount];
 		addEnemy();
 		drawWordBoard();
+		
 }
 
 var myGameArea = {
@@ -90,7 +96,7 @@ function component(width, height, color, x, y, type) {
     this.y = y;
 	
     //random letter generation
-    var randPos = Math.floor(Math.random()*19);
+    var randPos = Math.floor(Math.random()*20);
     var currLetter = letters[randPos];
    
     this.update = function() {
@@ -108,8 +114,11 @@ function component(width, height, color, x, y, type) {
 			ctx.fillStyle = "black";
 			ctx.fillText(currLetter, this.x + this.width/2, this.y +this.height/2);           
 			this.compText = currLetter;
-        }
-		else{
+        } else if(type == "box") {
+			ctx.fillStyle = boxColor;
+			ctx.fillRect(this.x, this.y, this.width, this.height);
+			
+		} else{
 			ctx.fillStyle = color;
             ctx.fillRect(this.x, this.y, this.width, this.height);
 			}
@@ -125,8 +134,12 @@ function updateGameArea() {
 		myGameArea.clear();
 		myGamePiece.newPos();
 		myGamePiece.update();
+		fXBox.update();
+		
 	
 		if(lives < 0){
+			var score = playerScore;
+			highscore(score)
 			GameOver();
 		}
 
@@ -156,15 +169,17 @@ function updateGameArea() {
 		myGameArea.context.fillText("Level: " + level, 10, 20);
 		myGameArea.context.fillText ("Lives: " + lives, 10, 50);
 		myGameArea.context.fillText("Player Score: " + playerScore, 10, 80);	
+		myGameArea.context.fillText ("SoundFX: ", 1100, 30);
 		myGameArea.context.fillText("Game Piece X: " + myGamePiece.x, 10, 110);
 		myGameArea.context.fillText ("Computer word: " + cWord, 10, 140);
 		myGameArea.context.fillText ("Player word: " + pWord, 10, 170);			
 		myGameArea.context.fillText ("Press 'F' To Fire ", 600, 20);
-		myGameArea.context.fillText ("Left Arrow Goes left, Rifht Arrow Goes Right", 500, 50);	
+		myGameArea.context.fillText ("Left Arrow Goes left, Right Arrow Goes Right", 500, 50);	
 		myGameArea.context.fillText ("pLetters: " + pLetters, 10, 290);
 		myGameArea.context.fillText ("cLetters: " + cLetters, 10, 310);
-		myGameArea.context.fillText ("WordCount: " + wordCount, 10, 490);
-			
+		myGameArea.context.fillText ("WordCount: " + wordCount, 10, 490);	
+
+	
 	}
 }
 
@@ -212,8 +227,7 @@ function updateEnemyArray(){
 	if(blockAddTime%blockSpeed == 0){
 		var dropBlock = addEnemy();
 		enemies.push(dropBlock);
-	}
-	
+	}	
 	
 	//Update time units for adding enemies
 	blockAddTime +=1;
@@ -235,8 +249,7 @@ function updateEnemyArray(){
 					}
 				}			
 				enemies.splice(i, 1);				
-				redrawCompBoard(l);
-				//
+				redrawCompBoard(l);				
 			}			
 			
 			if(cLetters.length <= 0){
@@ -304,9 +317,7 @@ function testCollision(){
 				}
 			}		
 			
-			enemies.splice(ii, 1);
-			
-					
+			enemies.splice(ii, 1);				
 			
 			if(pLetters.length <= 0){
 				clearBoard();
