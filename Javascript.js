@@ -17,7 +17,7 @@ var compWords = ["domain", "software", "website", "computer", "programs"];
 var compWordsHit = [];
 var humanWordsHit = [];
 var humanWords = ["firewall", "ascii", "compile", "java", "router"];
-var letters = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+var letters = ["a", "b", "c", "d", "e", "f", "g", "i", "j", "l", "m", "n", "o", "p", "r", "s", "t", "u", "w",];
 var enemies = [];
 ////var enemyLetters =[]; //array of letters that are currently in play
 var cWord; //computer word
@@ -28,23 +28,26 @@ var blockAddTime = 0;
 var blockSpeed = 100;
 var cWordScore = 0;
 var pWordScore = 0;
+var gameOver = false;
+var wordCount = 0;
+var enemySpeed = 7;
 
 /* I think the computer and the player should each have
 3 - 5 predetermined words.  Maybe we could store them in an array.*/
 
 function startGame() {
 	update_scores();
+	
     myGamePiece = new component(80, 80, "cat.jpg", 590, 565, "image");
     myGameArea.start();
-    cWord = compWords[0];
-	pWord = humanWords[0]
+	pickWords();
 	for(i = 0; i < cWord.length; i++){
 		cLetters[i] = cWord[i];
 	}
 	for(i = 0; i < pWord.length; i++){
 		pLetters[i] = pWord[i];
 	}
-    pWord = humanWords[0];
+    pWord = humanWords[wordCount];
  //   compWordsHit.length = computerWord.length;
  //   humanWordsHit.length = humanWord.length;
 		addEnemy();
@@ -81,7 +84,7 @@ function component(width, height, color, x, y, type) {
     this.x = x;
     this.y = y;
     //random letter generation
-    var randPos = Math.floor(Math.random()*26);
+    var randPos = Math.floor(Math.random()*19);
     var currLetter = letters[randPos];
     //if type is letter then we add it to the enemyLetters array
     if(type=="letter"){
@@ -100,7 +103,7 @@ function component(width, height, color, x, y, type) {
             ctx.fillStyle = color;
 
 	    ctx.fillRect(this.x, this.y, this.width, this.height);
-	    ctx.font = "18pt Arial";
+	    ctx.font = "24pt Arial";
 	    ctx.fillStyle = "black";
 	    ctx.fillText(currLetter, this.x + this.width/2, this.y +this.height/2);
             //ctx.strokeText(currLetter, 10, 10);
@@ -119,17 +122,22 @@ function component(width, height, color, x, y, type) {
 }
 
 function updateGameArea() {
+if(gameOver == false){   
+
     myGameArea.clear();
     myGamePiece.newPos();
     myGamePiece.update();
-
-	/*For now I just add one point to player score when you shoot a block and the level goes up when you get to 3
-	I think the easiest way to do the score would be to use the final level score after all lives are gone
-	We could also do a points system if we want to make it a bit more complex.*/
-	if(playerScore >= 3){
-	level++;
-	playerScore = 0;
+	
+	if(lives < 0){
+		gameOver();
 	}
+		
+	
+	
+//	if(playerScore >= 3){
+//	level++;
+//	playerScore = 0;
+//	}
 
 	updateEnemyArray();
 	collision = testCollision();
@@ -159,17 +167,16 @@ function updateGameArea() {
 	myGameArea.context.fillText ("Player word: " + pWord, 10, 170);
 	myGameArea.context.fillText ("Press 'F' To Fire ", 600, 20);
 	myGameArea.context.fillText ("Lives: " + lives, 10, 200);
-	myGameArea.context.fillText ("Human Word: " + humanWord, 10, 230);
-	myGameArea.context.fillText ("Comp Word: " + computerWord, 10, 260);
+	
 	myGameArea.context.fillText ("pLetters: " + pLetters, 10, 290);
 	myGameArea.context.fillText ("cLetters: " + cLetters, 10, 310);
 ////	myGameArea.context.fillText ("Enemy Letters: " + enemyLetters, 10, 340);
-	myGameArea.context.fillText ("pWordScore: " + pWordScore, 10, 370);
-	myGameArea.context.fillText ("cWordScore: " + cWordScore, 10, 400);
+	
 	myGameArea.context.fillText ("pWord: " + pWord, 10, 430);
 	myGameArea.context.fillText ("cWord: " + cWord, 10, 460);
+	myGameArea.context.fillText ("WordCount: " + wordCount, 10, 490);
 	
-	
+}
 }
 
 function moveleft() {
@@ -240,6 +247,34 @@ function updateEnemyArray(){
 			}
 			//document.getElementById(id).style.property = new style
 			
+			
+			
+			if(cLetters.length <= 4){
+				clearBoard();
+					if(wordCount < (humanWords.length-1)){
+					//	lives--;
+						wordCount++;
+					}
+					else if (wordCount >= (humanWords.length-1)){
+						level++;
+					//	lives--;
+						wordCount = 0;
+					}
+						
+					pickWords();
+						
+				
+					cLetters = [];
+					pLetters = [];
+					for(i = 0; i < cWord.length; i++){
+						cLetters[i] = cWord[i];
+					}
+					for(i = 0; i < pWord.length; i++){
+						pLetters[i] = pWord[i];
+					}			
+					drawWordBoard();			
+			}
+			
 		}
 	}
 
@@ -259,7 +294,7 @@ function addEnemy()
 	randomX = Math.floor((Math.random() * (canvas.width - 80)) +1);
 	testEnemy = new component(80, 80, "red", randomX, 0, "letter");
 	//textEnemy.fillText(currLetter, 10, 10);
-	testEnemy.speedY = 2;
+	testEnemy.speedY = enemySpeed;
 
 
 
@@ -284,24 +319,56 @@ function testCollision(){
 	if (typeof bullet != "undefined"){
 		for(i = 0; i < enemies.length; i++){
 		if(bullet.x < enemies[i].x + 80 && bullet.x+10 > enemies[i].x && bullet.y < enemies[i].y+80 && bullet.y+10 > enemies[i].y){
-      //humanWordsHit[i] = checkLetterHuman(enemies[i]);
-			//$('#computerWord').remove();
-		//	removeLetterHuman(enemies[i]);
+     
 			enemies[i].lifeVal = 0;
-			playerScore++;
+			
 			
 			
 			while (pLetters.includes(enemies[i].compText)){
 			var index = pLetters.indexOf(enemies[i].compText);
 				if (index > -1 ){
-					pLetters.splice(index, 1);			
+					pLetters.splice(index, 1);	
+						playerScore++;
 				}
 			}
 			
 			
 			var ll = enemies[i].compText;
 			enemies.splice(i, 1);
-			redrawPlayerBoard(ll)
+			redrawPlayerBoard(ll)			
+			
+			if(pLetters.length <= 4){
+				clearBoard();
+					if(wordCount < (humanWords.length-1)){
+						playerScore++;
+						wordCount++;
+					}
+					else if (wordCount >= (humanWords.length-1)){
+						playerScore++;
+						level++;
+						enemySpeed++;
+						wordCount = 0;
+					}
+						
+					pickWords();
+						
+				
+					cLetters = [];
+					pLetters = [];
+					for(i = 0; i < cWord.length; i++){
+						cLetters[i] = cWord[i];
+					}
+					for(i = 0; i < pWord.length; i++){
+						pLetters[i] = pWord[i];
+					}			
+					drawWordBoard();			
+			}
+			
+			
+			
+			
+			
+			
 			
 			
 			
@@ -402,6 +469,7 @@ function drawWordBoard(){
 		letter.innerHTML = cWord[i];
 		
 		elementC.appendChild(letter);
+		console.log("Worked   ");
 				
 	}
 
@@ -409,7 +477,7 @@ function drawWordBoard(){
 		var letter = document.createElement("p");
 		letter.id = "humanLetter" + i;
 		letter.class = "letter";
-		console.log(letter.class);
+	//	console.log(letter.class);
 		letter.innerHTML = pWord[i];
 		elementH.appendChild(letter);
 /*    if(humanWordsHit[i] == true){
@@ -418,11 +486,30 @@ function drawWordBoard(){
 	}
 }
 
+function clearBoard(){
+	var element;
+	var element2;
+	for(i = 0; i < cWord.length; i++){
+		element = document.getElementById("computerLetter" + i);
+		element.parentNode.removeChild(element);				
+	}
+	
+	for(j = 0; j < pWord.length; j++){
+		element2 = document.getElementById("humanLetter" + j);
+		element2.parentNode.removeChild(element2);
+	}	
+}
+
+function pickWords(){
+	cWord = compWords[wordCount];
+	pWord = humanWords[wordCount];
+}
+
 function redrawCompBoard(l){
 	//console.log(cWord[i].toString());
 	for(i = 0; i < cWord.length; i++){
 		//console.log(document.getElementById("computerLetter" + i).innerHTML);
-	if(document.getElementById("computerLetter" + i).innerHTML == l)
+		if(document.getElementById("computerLetter" + i).innerHTML == l)
 		document.getElementById("computerLetter" + i).style.backgroundColor = "black";
 	}	
 }
@@ -434,4 +521,8 @@ function redrawPlayerBoard(ll){
 	if(document.getElementById("humanLetter" + i).innerHTML == ll)
 		document.getElementById("humanLetter" + i).style.backgroundColor = "black";
 	}	
+}
+
+function gameOver(){
+	gameOver = true;
 }
