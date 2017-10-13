@@ -4,7 +4,7 @@ window.addEventListener("keydown", keyTouch, false);
 window.addEventListener("keyup", clearmove, false);
 
 var myGamePiece;
-var lives = 3;
+var lives = 5;
 var level = 1;
 var playerScore = 0;
 var collision = false;
@@ -206,7 +206,8 @@ function updateEnemyArray(){
 			while (cLetters.includes(enemies[i].compText)){
 			var index = cLetters.indexOf(enemies[i].compText);
 				if (index > -1 ){
-					cLetters.splice(index, 1);			
+					cLetters.splice(index, 1);
+					lives--;					
 				}
 			}
 			enemies.splice(i, 1);
@@ -214,15 +215,14 @@ function updateEnemyArray(){
 			redrawCompBoard(l);
 			}			
 			
-			if(cLetters.length <= 4){
+			if(cLetters.length <= 0){
 				clearBoard();
 					if(wordCount < (humanWords.length-1)){
-					//	lives--;
+						
 						wordCount++;
 					}
 					else if (wordCount >= (humanWords.length-1)){
-						level++;
-					//	lives--;
+						level++;						
 						wordCount = 0;
 					}
 						
@@ -383,5 +383,9 @@ function redrawPlayerBoard(ll){
 }
 
 function gameOver(){
+	ctx.clearRect(0, 0, canvas.width, canvas.height);
+	myGameArea.context.fillStyle = "black";
+	myGameArea.context.font = "bold 16px Arial";
+	myGameArea.context.fillText("GAME OVER ", 500, 200);
 	gameOver = true;
 }
