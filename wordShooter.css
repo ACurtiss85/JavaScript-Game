@@ -1,0 +1,131 @@
+canvas {
+  border: 1px solid black;
+  margin: 10px;
+}
+
+button {
+  position: relative;
+}
+
+th, td {
+    padding: 5px;
+}
+
+#nickname{
+	-webkit-animation: mymove 5s infinite; /* Chrome, Safari, Opera */
+	-ms-animation: mymove 5s infinite;
+	-moz-animation: mymove 5s infinite;
+    animation: mymove 5s infinite;
+	font-size: 300%;
+	padding: auto;
+	text-align: center;
+	margin: 0;
+}
+
+/* Standard syntax */
+@keyframes mymove {
+    from {color: red;}
+    to {color: blue;}
+}
+
+header.titlediv {
+    background-color: black;
+    color: white;
+    margin: 0px 0 0px 0;
+    padding: 20px;
+}
+
+.listing {
+	margin: 0;
+	padding: 0;
+}
+
+a.button{
+    background-color: white;
+    color: black;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+	border-radius: 8px;
+	border: 2px solid black;
+	margin: 2px;
+	width: 8.33%;
+}
+
+#here{
+	background-color: green;
+}
+
+a.button:hover{
+	background-color:black;
+	color:white;
+}
+
+.navbar li{
+	display:inline;
+}
+
+footer{
+	background-color:black;
+	height: 10%;
+	margin-bottom: 2%;
+	display: block;
+}
+
+@media only screen and (max-width: 768px) {
+    /* For mobile phones: */
+[class="dropdown"] {
+		width: 92%;
+		margin: 0 auto;
+		list-style-type: none;
+		padding: 10px;
+}
+}
+
+@media only screen and (max-width: 768px) {
+    /* For mobile phones: */
+a.button {
+		width: 92%;
+		margin: 0 auto;
+		margin: 2px;
+        list-style-type: none;
+        padding: 10px;
+}
+}
+
+#computerWord p{
+  background-color: lightpink;
+  color: black;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 2px solid black;
+  margin: 2px;
+  width: 1.5%;
+}
+
+#humanWord p{
+  background-color: lightblue;
+  color: black;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 2px solid black;
+  margin: 2px;
+  width: 1.5%;
+
+}
+#computerWord{
+  display: inline;
+}
+#humanWord{
+  display: inline;
+}
