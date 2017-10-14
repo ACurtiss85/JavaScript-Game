@@ -4,7 +4,25 @@ canvas {
 }
 
 button {
-  position: relative;
+  background-color: white;
+  background-color: lightgreen;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 2px solid black;
+  margin: 2px;
+  width: 8.33%;
+  box-shadow: 5px 5px grey;
+}
+button:hover{
+  background-color: lightblue;
+}
+button:active{
+  box-shadow: 0 5px grey;
+  transform: translateY(3px);
 }
 
 th, td {
@@ -51,6 +69,8 @@ a.button{
 	border: 2px solid black;
 	margin: 2px;
 	width: 8.33%;
+  box-shadow: 5px 5px grey;
+
 }
 
 #here{
@@ -106,6 +126,7 @@ a.button {
   border: 2px solid black;
   margin: 2px;
   width: 1.5%;
+  box-shadow: 5px 5px grey;
 }
 
 #humanWord p{
@@ -120,6 +141,7 @@ a.button {
   border: 2px solid black;
   margin: 2px;
   width: 1.5%;
+  box-shadow: 5px 5px grey;
 
 }
 #computerWord{
@@ -154,7 +176,7 @@ footer{
 }
 
 .varification ul li{
-	display: inline;	
+	display: inline;
 }
 
 .varification ul{
