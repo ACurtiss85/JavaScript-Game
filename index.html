@@ -15,17 +15,17 @@
 <body onload="startGame()">
 
 	<audio id="myMusic">
-		<source src="SpanishJam.mp3" type="audio/mp3">		
+		<source src="SpanishJam.mp3" type="audio/mp3">
 		Your browser does not support the audio element.
 	</audio>
-	
+
 	<audio id="pew">
-		<source src="Pew_Pew.mp3" type="audio/mp3">		
+		<source src="Pew_Pew.mp3" type="audio/mp3">
 		Your browser does not support the audio element.
 	</audio>
-	
+
 	<audio id="blast">
-		<source src="blast.mp3" type="audio/mp3">		
+		<source src="blast.mp3" type="audio/mp3">
 		Your browser does not support the audio element.
 	</audio>
 
@@ -33,16 +33,17 @@
 	<h1 id="nickname">WELCOME TO WORD SHOOTER</h1>
 	<hr>
   </header>
-
+<!--
   <nav class="navbar">
     <ul class="listing">
     <li><a href="../index.html" class="button" id="here">Home</a></li>
-    <li><a href="Instructions.html" class="button">Instructions</a></li>	
+    <li><a href="Instructions.html" class="button">Instructions</a></li>
     </ul>
+    -->
 	<button onclick="playAudio()" type="button">Play Music</button>
-	<button onclick="pauseAudio()" type="button">Pause Music</button> 
+	<button onclick="pauseAudio()" type="button">Pause Music</button>
 	<button onclick="toggleFX()" type="button">Toggle SoundFX</button>
-	
+
   </nav>
   <section>
     <canvas id="myCanvas" width="1300" height="650"></canvas>
@@ -53,7 +54,7 @@
 
   </section>
   <section class = "word" id="humanWord">
-		
+
   </section>
 
  <div id="highdiv"> <!-- For the hi-score api -->
@@ -73,22 +74,22 @@
 				</tr>
 			</table>
 		</div>
-		 
-   <footer>  
+
+   <footer>
 	  <div class="varification">
 		<ul>
 		  <li>
 			<img src="yellowHTML5.png" alt="HTML Varified" style="width:86px;height:31px;">
 		  </li>
-		  <li>	  
+		  <li>
 			<img src="yellowCSS3.png" alt="HTML Varified" style="width:86px;height:31px;">
 		</li>
 		<li>
-		 <img src="yellowWCAGAAA.png" alt="HTML Varified" style="width:86px;height:31px;">     
+		 <img src="yellowWCAGAAA.png" alt="HTML Varified" style="width:86px;height:31px;">
 		</li>
 		</ul>
 	  </div>
-  </footer>	  
+  </footer>
 <script src="wordShooter.js"></script>
 </body>
 </html>
