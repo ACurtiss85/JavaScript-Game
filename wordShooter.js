@@ -20,7 +20,7 @@ var blockAddTime = 0;
 var blockSpeed = 100;
 var gameOver = false;
 var wordCount = 0;
-var enemySpeed = 7;
+var enemySpeed = 4;
 var m = document.getElementById("myMusic");
 var pew = document.getElementById("pew");
 var blast = document.getElementById("blast");
@@ -62,6 +62,7 @@ function startGame() {
 	for(i = 0; i < pWord.length; i++){
 		pLetters[i] = pWord[i];
 	}
+  alert("Your word is: " + pWord + " The computer's word is: " + cWord);
     pWord = humanWords[wordCount];
 		addEnemy();
 		drawWordBoard();

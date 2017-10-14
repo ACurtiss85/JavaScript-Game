@@ -115,6 +115,8 @@ a.button {
 }
 
 #computerWord p{
+  font-size: 50px;
+  font-weight: 2px;
   background-color: lightpink;
   color: black;
   padding: 15px 32px;
